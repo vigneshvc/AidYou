@@ -47,7 +47,7 @@ public class FallDetection extends Service implements SensorEventListener {
     public void onCreate() {
         super.onCreate();
         Log.i("FallDetection", "Started");
-        Toast.makeText(this, "Service started", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -161,7 +161,7 @@ public class FallDetection extends Service implements SensorEventListener {
     public void onDestroy() {
         super.onDestroy();
         Log.i("FallDetection","Stopped");
-        Toast.makeText(this,"Service Stopped",Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Service Stopped",Toast.LENGTH_SHORT).show();
         sensorManager.unregisterListener(this);
         sharedPreferences.edit().putBoolean("ServiceOn",false).apply();
     }
