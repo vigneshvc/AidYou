@@ -1,19 +1,21 @@
 package com.saveetha.aidyou;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SeekBar delaySeekbar;
     SharedPreferences sharedPreferences;
     TextView tv;
+    private Handler mHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getContactDetails();
         }
         setContentView(R.layout.activity_main);
+
+        mHandler = new Handler();
     }
 
     @Override
@@ -43,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Manifest.permission.SEND_SMS)) {
             } else {
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.SEND_SMS},
+                        new String[]{Manifest.permission.SEND_SMS,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},
                         0);
             }
         }
@@ -126,6 +131,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
+        startProgress();
+    }
+    private void startProgress() {
+//      New thread to perform background operation
+        new Thread(new Runnable() {
+            @Override
+            public void run() {while(true) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        cancelTrigger.setEnabled(AlteredTimer.active);
+                    }
+                });
+            }
+            }
+        }).start();
     }
 
     @Override

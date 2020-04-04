@@ -21,6 +21,35 @@ public class ContactFetchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contact_fetch);
     }
 
+    boolean checkFields(){
+        boolean returnvalue = true;
+        if(editenum1.getText().toString().equals("")){
+            editenum1.setError("Empty");
+            returnvalue=false;
+        }
+        if(editenum2.getText().toString().equals("")) {
+            editenum2.setError("Empty");
+            returnvalue=false;
+        }
+        if(editenum3.getText().toString().equals("")) {
+            editenum3.setError("Empty");
+            returnvalue=false;
+        }
+        if(editenum1.getText().toString().length()!=10){
+            editenum1.setError("Invalid Number");
+            returnvalue=false;
+        }
+        if(editenum2.getText().toString().length()!=10) {
+            editenum2.setError("Invalid Number");
+            returnvalue=false;
+        }
+        if(editenum3.getText().toString().length()!=10) {
+            editenum3.setError("Invalid Number");
+            returnvalue=false;
+        }
+
+        return returnvalue;
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -48,13 +77,7 @@ public class ContactFetchActivity extends AppCompatActivity {
         enteredContactDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(editenum1.getText().toString().equals("")){
-                    editenum1.setError("Empty");
-                }else if(editenum2.getText().toString().equals("")){
-                    editenum2.setError("Empty");
-                }else if(editenum3.getText().toString().equals("")){
-                    editenum3.setError("Empty");
-                }else {
+               if(checkFields()){
                     editor.putString("EmergencyNum1", editenum1.getText().toString());
                     editor.putString("EmergencyNum2", editenum2.getText().toString());
                     editor.putString("EmergencyNum3", editenum3.getText().toString());

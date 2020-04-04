@@ -11,5 +11,6 @@ public class AlteredTimer extends Timer {
     public void cancel() {
         super.cancel();
         Log.i("AlteredTimer","TimerCanceled");
+        active=false;
     }
 }

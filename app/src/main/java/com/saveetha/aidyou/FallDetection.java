@@ -1,7 +1,6 @@
 package com.saveetha.aidyou;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -16,16 +15,12 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.IBinder;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
-
 import androidx.core.app.ActivityCompat;
-
-import java.util.Timer;
 import java.util.TimerTask;
 
 public class FallDetection extends Service implements SensorEventListener {
@@ -137,8 +132,9 @@ public class FallDetection extends Service implements SensorEventListener {
                             if(location==null){
                                 alertMessage+=" My location is disabled! Contact me ASAP";
                             }else{
-                                alertMessage+=" My location is "+location.getLatitude()+","+location.getLongitude()+", Click on the link- https://www.google.com/maps/@"+location.getLatitude()+","+
-                                        location.getLongitude()+",15z";
+                                // https://www.google.com/maps/search/?api=1&query=47.5951518,-122.3316393
+                                alertMessage+=" My location is "+location.getLatitude()+","+location.getLongitude()+", Click on the link- https://www.google.com/maps/search/?api=1&query="+location.getLatitude()+","+
+                                        location.getLongitude();
                             }
                             smsManager = SmsManager.getDefault();
                             smsManager.sendTextMessage(sharedPreferences.getString("EmergencyNum1","9999999990"),null,alertMessage,null,null);
